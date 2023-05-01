@@ -8,7 +8,7 @@ from keras.layers import Dense, Flatten, Dropout
 from keras import Sequential
 from keras.models import Model
 
-from preprocess import get_labels, unpickle
+from preprocess import preprocess_images, get_labels, unpickle
 
 from re import X
 
@@ -17,7 +17,7 @@ def train_model(images, one_hots):
     # load in the pre-trained resnet
     # resnet50 = ResNet50(include_top=False, weights='imagenet', input_shape=(256,256,3))
     resnet50 = ResNet152(include_top=False, weights='imagenet', input_shape=(256,256,3))
-    
+
 
     # freeze the pre-trained layers, and only train the newly added layers
     # for layer in resnet152.layers:
@@ -54,7 +54,7 @@ def train_model(images, one_hots):
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
 
-    # shuffle 
+    # shuffle
     indices = tf.range(start=0, limit=len(one_hots))
     idx = tf.random.shuffle(indices)
     images = tf.gather(images, idx)
@@ -66,14 +66,13 @@ def train_model(images, one_hots):
     # print(one_hots)
     print(images[:1904].shape)
     print(one_hots[:1904].shape)
-    history = model.fit(images[:1904], one_hots[:1904], batch_size=128, epochs=3, 
+    history = model.fit(images[:1904], one_hots[:1904], batch_size=128, epochs=3,
                         validation_data=(images[1904:], one_hots[1904:]))
 
 
 
 if __name__ == "__main__":
-    get_labels()
-    images, one_hots = unpickle()
-    train_model(images, one_hots)
-
-
+    preprocess_images()
+    # get_labels()
+    # images, one_hots = unpickle()
+    # train_model(images, one_hots)
