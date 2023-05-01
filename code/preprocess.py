@@ -39,7 +39,7 @@ def get_labels():
 
 def unpickle():
     data = {}
-    with open('data/data-001.p', 'rb') as file:
+    with open('data/data.p', 'rb') as file:
         data = pickle.load(file)
 
     images = np.array([data[key][0] for key in data.keys()])
@@ -49,8 +49,8 @@ def unpickle():
     print(images.shape)
     print(one_hots.shape)
 
+    return images, one_hots
 
-if __name__ == "__main__":
-    get_labels()
-    unpickle()
+
+
 
