@@ -118,7 +118,7 @@ def preprocess_images():
     # By doing this, we only have to run this cell ONCE (on kristen's computer
     # cuz she has the vim)
 
-    with open(f'pickles/data.p', 'wb') as pickle_file:
+    with open(f'data/data.p', 'wb') as pickle_file:
         pickle.dump(data, pickle_file)
     print(f'Data has been dumped into data.p!')
 
