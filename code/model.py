@@ -54,17 +54,17 @@ def train_model(images, one_hots):
 
     # ABSTRACTING WITH RESNET50
 
-    resnet50 = tf.keras.applications.ResNet50(include_top=False, weights='imagenet', input_shape=(256,256,64))
+    resnet50 = tf.keras.applications.ResNet50(include_top=False, weights='imagenet', input_shape=(256,256,3))
 
     for layer in resnet50.layers:
         layer.trainable = False
 
     flatten=Flatten()(resnet50.output)
-    dense1=Dense(512, activation='leaky_relu')(flatten)
+    dense1=Dense(512, activation='relu')(flatten)
     dropout1=Dropout(rate=0.3)(dense1)
-    dense2=Dense(256, activation='leaky_relu')(dropout1)
+    dense2=Dense(256, activation='relu')(dropout1)
     dropout2=Dropout(rate=0.5)(dense2)
-    dense3 = Dense(64, activation = 'leaky_relu')(dropout2)
+    dense3 = Dense(64, activation = 'relu')(dropout2)
     predictions=Dense(2, activation='softmax')(dense3)
 
     model = Model(inputs=resnet50.input, outputs=predictions)
@@ -77,19 +77,19 @@ def train_model(images, one_hots):
     one_hots = tf.gather(one_hots, idx)
 
     # compile the models
-    model.compile(optimizer=tf.keras.optimizers.Adam(0.0004), loss='binary_crossentropy', metrics=['accuracy'])
-    history = model.fit(images[:1500], one_hots[:1500], batch_size=64, epochs=5, 
-                        validation_data=(images[1500:], one_hots[1500:]))
+    # model.compile(optimizer=tf.keras.optimizers.Adam(0.0004), loss='binary_crossentropy', metrics=['accuracy'])
+    # history = model.fit(images[:1500], one_hots[:1500], batch_size=64, epochs=5, 
+    #                     validation_data=(images[1500:], one_hots[1500:]))
     
 
-    # history = model.fit(images[:5200], one_hots[:5200], batch_size=64, epochs=5, 
-    #                     validation_data=(images[5200:], one_hots[5200:]))
+    history = model.fit(images[:6000], one_hots[:6000], batch_size=64, epochs=5, 
+                        validation_data=(images[6000:], one_hots[6000:]))
     
 
 
 
 if __name__ == "__main__":
-    preprocess_images()
+    # preprocess_images()
     get_labels()
     # images, one_hots = unpickle_vgg()
     images, one_hots = unpickle()
