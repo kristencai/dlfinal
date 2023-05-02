@@ -48,7 +48,7 @@ def train_model(images, one_hots):
 
     slice_model = Model(inputs = vgg_model.input, outputs = vgg_model.get_layer('block1_conv1').output)
 
-    preprocessed = slice_model.predict(images)
+    preprocessed = slice_model.predict(images, batch_size = 16)
 
     print('preprocessed shape: {preprocessed.shape}')
 
