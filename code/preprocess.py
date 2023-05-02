@@ -135,6 +135,7 @@ def unpickle():
         np.load(file, allow_pickle=True).item()
     print(f'data successfully unpickled')
 
+    print(f'this is th elen of the data:{len(data)}')
     pictures = []
     for key in data.keys():
         for i in data[key][0]:
