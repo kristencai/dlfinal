@@ -137,12 +137,14 @@ def unpickle():
 
     print(f'this is th elen of the data:{len(data)}')
     pictures = []
+    indices = []
     for key in data.keys():
         for i in data[key][0]:
             pictures.append(i)
+            indices.append(data[key][1])
 
     images = np.array(pictures)
-    indices = [data[key][1] for key in data.keys()]
+    # indices = [data[key][1] for key in data.keys()]
     one_hots = tf.one_hot(indices, 2)
 
     print(images.shape)
