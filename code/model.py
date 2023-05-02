@@ -21,7 +21,7 @@ def train_model(images, one_hots):
     dataset = tf.data.Dataset.from_tensor_slices((images, one_hots))
 
     # Shuffle the dataset and split into batches of size 32
-    batch_size = 32
+    batch_size = 16
     dataset = dataset.shuffle(buffer_size=len(images))
     dataset = dataset.batch(batch_size)
     # freeze the pre-trained layers, and only train the newly added layers
