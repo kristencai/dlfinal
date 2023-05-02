@@ -43,14 +43,14 @@ def train_model(images, one_hots):
     # dropout2=Dropout(rate=0.3)(dense2)
     # predictions=Dense(2, activation='sigmoid')(dropout2)
 
-    # PREPROCESSING WITH VGG 
-    vgg_model = tf.keras.applications.VGG16(include_top = False, weights = 'imagenet', input_shape=(256,256,3))
+    # # PREPROCESSING WITH VGG 
+    # vgg_model = tf.keras.applications.VGG16(include_top = False, weights = 'imagenet', input_shape=(256,256,3))
 
-    slice_model = Model(inputs = vgg_model.input, outputs = vgg_model.get_layer('block1_conv1').output)
+    # slice_model = Model(inputs = vgg_model.input, outputs = vgg_model.get_layer('block1_conv1').output)
 
-    preprocessed = slice_model.predict(images, batch_size = 16)
+    # preprocessed = slice_model.predict(images, batch_size = 16)
 
-    print('preprocessed shape: {preprocessed.shape}')
+    # print('preprocessed shape: {preprocessed.shape}')
 
     # ABSTRACTING WITH RESNET50
 
@@ -67,21 +67,29 @@ def train_model(images, one_hots):
     dense3 = Dense(64, activation = 'leaky_relu')(dropout2)
     predictions=Dense(2, activation='softmax')(dense3)
 
-    model = Model(inputs=preprocessed, outputs=predictions)
+    model = Model(inputs=resnet50.input, outputs=predictions)
 
 
+
+    indices = tf.range(start=0, limit=len(one_hots))
+    idx = tf.random.shuffle(indices)
+    images = tf.gather(images, idx)
+    one_hots = tf.gather(one_hots, idx)
 
     # compile the models
     model.compile(optimizer=tf.keras.optimizers.Adam(0.0004), loss='binary_crossentropy', metrics=['accuracy'])
+    history = model.fit(images[:1500], one_hots[:1500], batch_size=64, epochs=5, 
+                        validation_data=(images[1500:], one_hots[1500:]))
+    
 
-    history = model.fit(images[:5200], one_hots[:5200], batch_size=64, epochs=5, 
-                        validation_data=(images[5200:], one_hots[5200:]))
+    # history = model.fit(images[:5200], one_hots[:5200], batch_size=64, epochs=5, 
+    #                     validation_data=(images[5200:], one_hots[5200:]))
     
 
 
 
 if __name__ == "__main__":
-    preprocess_images()
+    # preprocess_images()
     get_labels()
     images, one_hots = unpickle_vgg()
     # images, one_hots = unpickle()
