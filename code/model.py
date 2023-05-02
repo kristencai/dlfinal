@@ -18,13 +18,13 @@ def train_model(images, one_hots):
     # vgg16 = tf.keras.applications.VGG16(include_top=False, weights = 'imagenet', input_shape = (256,256,3))
     # resnet50 = tf.keras.applications.ResNet152(include_top=False, weights='imagenet', input_shape=(256,256,3))
     
-    dataset = tf.data.Dataset.from_tensor_slices((images, one_hots))
+    # dataset = tf.data.Dataset.from_tensor_slices((images, one_hots))
 
-    batch_size = 64
-    epochs = 5
-    train_dataset = dataset.take(7100).batch(batch_size)
-    train_dataset = train_dataset.shuffle(buffer_size=7100)
-    val_dataset = dataset.skip(7100).batch(batch_size)
+    # batch_size = 64
+    # epochs = 5
+    # train_dataset = dataset.take(7100).batch(batch_size)
+    # train_dataset = train_dataset.shuffle(buffer_size=7100)
+    # val_dataset = dataset.skip(7100).batch(batch_size)
 
 
     # # Shuffle the dataset and split into batches of size 32
@@ -89,9 +89,9 @@ def train_model(images, one_hots):
     #                     validation_data=(images[1500:], one_hots[1500:]))
     
 
-    # history = model.fit(images[:7100], one_hots[:7100], batch_size=64, epochs=5, 
-    #                     validation_data=(images[7100:], one_hots[7100:]))
-    history = model.fit(train_dataset, epochs=5, validation_data=val_dataset)
+    history = model.fit(images[:7100], one_hots[:7100], batch_size=64, epochs=5, 
+                        validation_data=(images[7100:], one_hots[7100:]))
+    # history = model.fit(train_dataset, epochs=5, validation_data=val_dataset)
     
 
 
