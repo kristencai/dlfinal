@@ -15,7 +15,8 @@ from re import X
 def train_model(images, one_hots):
 
     # load in the pre-trained resnet
-    resnet50 = tf.keras.applications.ResNet50(include_top=False, weights='imagenet', input_shape=(256,256,3))
+    # resnet50 = tf.keras.applications.ResNet50(include_top=False, weights='imagenet', input_shape=(256,256,3))
+    vgg16 = tf.keras.applications.VGG16(include_top=False, weights = 'imagenet', input_shape = (256,256,3))
     # resnet50 = ResNet152(include_top=False, weights='imagenet', input_shape=(256,256,3))
     
     dataset = tf.data.Dataset.from_tensor_slices((images, one_hots))
@@ -27,7 +28,7 @@ def train_model(images, one_hots):
     # freeze the pre-trained layers, and only train the newly added layers
     # for layer in resnet152.layers:
     #   layer.trainable = False
-    for layer in resnet50.layers:
+    for layer in vgg16.layers:
         layer.trainable = False
 
 
@@ -45,7 +46,7 @@ def train_model(images, one_hots):
     # predictions=Dense(2, activation='sigmoid')(dropout2)
 
 
-    flatten=Flatten()(resnet50.output)
+    flatten=Flatten()(vgg16.output)
     dense1=Dense(512, activation='leaky_relu')(flatten)
     dropout1=Dropout(rate=0.3)(dense1)
     dense2=Dense(256, activation='leaky_relu')(dropout1)
@@ -53,7 +54,7 @@ def train_model(images, one_hots):
     dense3 = Dense(64, activation = 'leaky_relu')(dropout2)
     predictions=Dense(2, activation='softmax')(dense3)
 
-    model = Model(inputs=resnet50.input, outputs=predictions)
+    model = Model(inputs=vgg16.input, outputs=predictions)
 
 
 
