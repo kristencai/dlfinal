@@ -8,7 +8,7 @@ from keras.layers import Dense, Flatten, Dropout
 from keras import Sequential
 from keras.models import Model
 
-from preprocess import get_labels, unpickle, preprocess_images, unpickle_vgg
+from preprocess import get_labels, unpickle, preprocess_images
 
 from re import X
 
