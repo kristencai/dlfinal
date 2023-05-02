@@ -1,7 +1,7 @@
 import pickle
 import tensorflow as tf
 import numpy as np
-import tqdm
+from tqdm import tqdm
 from PIL import Image
 import os
 
