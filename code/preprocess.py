@@ -3,6 +3,8 @@ import tensorflow as tf
 import numpy as np
 import tqdm
 from PIL import Image
+import os
+
 def get_labels():
     labels = []
     id_to_label = {}
