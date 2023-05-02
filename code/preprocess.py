@@ -200,9 +200,9 @@ def preprocess_images():
     # this is the final code bc it resizes all of them
     # for each photo, we resize, get the pixel values, and reshape to (256, 256, 3)
     for filename in tqdm(os.scandir(directory)):
-        # count += 1
-        # if count > 100:
-        #   break
+        count += 1
+        if count > 1750:
+          break
         count += 1
         print(f'on iteration: {count}')
         if filename.is_file():
