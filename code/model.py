@@ -55,10 +55,10 @@ def train_model(images, one_hots):
 
 
     # shuffle 
-    indices = tf.range(start=0, limit=len(one_hots))
-    idx = tf.random.shuffle(indices)
-    images = tf.gather(images, idx)
-    one_hots = tf.gather(one_hots, idx)
+    # indices = tf.range(start=0, limit=len(one_hots))
+    # idx = tf.random.shuffle(indices)
+    # images = tf.gather(images, idx)
+    # one_hots = tf.gather(one_hots, idx)
 
     # # train the models
     # history = model.fit(train_dataset, validation_data=val_dataset, epochs=10)
