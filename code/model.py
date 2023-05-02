@@ -84,7 +84,7 @@ def train_model(images, one_hots):
     # one_hots = tf.gather(one_hots, idx)
 
     # compile the models
-    # model.compile(optimizer=tf.keras.optimizers.Adam(0.0004), loss='binary_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=tf.keras.optimizers.Adam(0.0004), loss='binary_crossentropy', metrics=['accuracy'])
     # history = model.fit(images[:1500], one_hots[:1500], batch_size=64, epochs=5, 
     #                     validation_data=(images[1500:], one_hots[1500:]))
     
