@@ -90,36 +90,37 @@ def preprocess_images():
         if filename.is_file():
             with Image.open(filename.path) as img:
             # print(filename.path.strip('images/').strip('.JPG'))
-                if id_to_label[filename.path.strip('images/').strip('.JPG')] == 1:
-                    new_image = img.resize((256,256))
-                    # new_image.show()
+                if filename.path.strip('images/').strip('.JPG') in id_to_label:
+                    if id_to_label[filename.path.strip('images/').strip('.JPG')] == 1:
+                        new_image = img.resize((256,256))
+                        # new_image.show()
 
-                    ninety = new_image.rotate(90.0)
-                    # ninety.show()
-                    ninety = np.array(list(ninety.getdata()))
-                    ninety = np.reshape(ninety, (256, 256, 3))
+                        ninety = new_image.rotate(90.0)
+                        # ninety.show()
+                        ninety = np.array(list(ninety.getdata()))
+                        ninety = np.reshape(ninety, (256, 256, 3))
 
-                    one_eighty = new_image.rotate(180.0)
-                    # one_eighty.show()
-                    one_eighty = np.array(list(one_eighty.getdata()))
-                    one_eighty = np.reshape(one_eighty, (256, 256, 3))
+                        one_eighty = new_image.rotate(180.0)
+                        # one_eighty.show()
+                        one_eighty = np.array(list(one_eighty.getdata()))
+                        one_eighty = np.reshape(one_eighty, (256, 256, 3))
 
 
-                    two_seventy = new_image.rotate(270.0)     
-                    # two_seventy.show()
-                    two_seventy = np.array(list(two_seventy.getdata()))
-                    two_seventy = np.reshape(two_seventy, (256, 256, 3))
+                        two_seventy = new_image.rotate(270.0)     
+                        # two_seventy.show()
+                        two_seventy = np.array(list(two_seventy.getdata()))
+                        two_seventy = np.reshape(two_seventy, (256, 256, 3))
 
-                    new_image = np.array(list(new_image.getdata()))
-                    new_image = np.reshape(new_image, (256, 256, 3))
-                    data[filename.path.strip('images/').strip('.JPG')] = \
-                    ([new_image , ninety, one_eighty, two_seventy], id_to_label[filename.path.strip('images/').strip('.JPG')])
-                else: 
-                    new_image = img.resize((256,256))
-                    new_image = np.array(list(new_image.getdata()))
-                    new_image = np.reshape(new_image, (256, 256, 3))
-                    data[filename.path.strip('images/').strip('.JPG')] = \
-                    ([new_image] , id_to_label[filename.path.strip('images/').strip('.JPG')])
+                        new_image = np.array(list(new_image.getdata()))
+                        new_image = np.reshape(new_image, (256, 256, 3))
+                        data[filename.path.strip('images/').strip('.JPG')] = \
+                        ([new_image , ninety, one_eighty, two_seventy], id_to_label[filename.path.strip('images/').strip('.JPG')])
+                    else: 
+                        new_image = img.resize((256,256))
+                        new_image = np.array(list(new_image.getdata()))
+                        new_image = np.reshape(new_image, (256, 256, 3))
+                        data[filename.path.strip('images/').strip('.JPG')] = \
+                        ([new_image] , id_to_label[filename.path.strip('images/').strip('.JPG')])
 
 
     with open(f'data/data.npy', 'wb') as pickle_file:
