@@ -8,7 +8,7 @@ from keras.layers import Dense, Flatten, Dropout
 from keras import Sequential
 from keras.models import Model
 
-from preprocess import get_labels, unpickle, preprocess_images
+from preprocess import get_labels, unpickle, preprocess_images, unpickle_vgg
 
 from re import X
 
@@ -81,9 +81,10 @@ def train_model(images, one_hots):
 
 
 if __name__ == "__main__":
-    # preprocess_images()
+    preprocess_images()
     get_labels()
-    images, one_hots = unpickle()
+    images, one_hots = unpickle_vgg()
+    # images, one_hots = unpickle()
     train_model(images, one_hots)
 
 
