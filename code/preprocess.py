@@ -81,6 +81,8 @@ def preprocess_images():
     # picture_id -> (pixel values, label value)
     data = {}
     count = 0
+    malignant = 0
+    benign = 0
     # this is the final code bc it resizes all of them
     # for each photo, we resize, get the pixel values, and reshape to (256, 256, 3)
     for filename in tqdm(os.scandir(directory)):
@@ -115,13 +117,22 @@ def preprocess_images():
                         new_image = np.reshape(new_image, (256, 256, 3))
                         data[filename.path.strip('images/').strip('.JPG')] = \
                         ([new_image , ninety, one_eighty, two_seventy], id_to_label[filename.path.strip('images/').strip('.JPG')])
+                        malignant += 4
                     else: 
                         new_image = img.resize((256,256))
+
+                        one_eighty = new_image.rotate(180.0)
+                        # one_eighty.show()
+                        one_eighty = np.array(list(one_eighty.getdata()))
+                        one_eighty = np.reshape(one_eighty, (256, 256, 3))
+
                         new_image = np.array(list(new_image.getdata()))
                         new_image = np.reshape(new_image, (256, 256, 3))
                         data[filename.path.strip('images/').strip('.JPG')] = \
-                        ([new_image] , id_to_label[filename.path.strip('images/').strip('.JPG')])
+                        ([new_image, one_eighty] , id_to_label[filename.path.strip('images/').strip('.JPG')])
+                        benign += 2
 
+    print(f' overall malignant: {malignant} v. benign: {benign}')
 
     with open(f'data/data.npy', 'wb') as pickle_file:
         np.save( pickle_file, data)
