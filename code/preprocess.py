@@ -132,7 +132,7 @@ def preprocess_images():
 def unpickle():
     data = {}
     with open('data/data.npy', 'rb') as file:
-        np.load(file, allow_pickle=True).item()
+        data = np.load(file, allow_pickle=True).item()
     print(f'data successfully unpickled')
 
     print(f'this is th elen of the data:{len(data)}')
