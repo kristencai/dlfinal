@@ -74,7 +74,7 @@ def train_model(images, one_hots):
     # print(one_hots)
     # print(images[:1904].shape)
     # print(one_hots[:1904].shape)
-    history = model.fit(images[:5200], one_hots[:5200], batch_size=64, epochs=3, 
+    history = model.fit(images[:5200], one_hots[:5200], batch_size=64, epochs=5, 
                         validation_data=(images[5200:], one_hots[5200:]))
     
 
