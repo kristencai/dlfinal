@@ -44,7 +44,7 @@ def train_model(images, one_hots):
     # predictions=Dense(2, activation='sigmoid')(dropout2)
 
     # PREPROCESSING WITH VGG 
-    vgg_model = tf.keras.applications.VGG16(include_top = False, weights = 'imagenet', image_shape=(256,256,3))
+    vgg_model = tf.keras.applications.VGG16(include_top = False, weights = 'imagenet', input_shape=(256,256,3))
 
     slice_model = Model(inputs = vgg_model.input, outputs = vgg_model.get_layer('block1_conv1').output)
 
@@ -72,21 +72,6 @@ def train_model(images, one_hots):
     # compile the models
     model.compile(optimizer=tf.keras.optimizers.Adam(0.0004), loss='binary_crossentropy', metrics=['accuracy'])
 
-    # model.fit(dataset, epochs = 5)
-
-
-    # shuffle 
-    # indices = tf.range(start=0, limit=len(one_hots))
-    # idx = tf.random.shuffle(indices)
-    # images = tf.gather(images, idx)
-    # one_hots = tf.gather(one_hots, idx)
-
-    # # train the models
-    # history = model.fit(train_dataset, validation_data=val_dataset, epochs=10)
-    # print(images)
-    # print(one_hots)
-    # print(images[:1904].shape)
-    # print(one_hots[:1904].shape)
     history = model.fit(images[:5200], one_hots[:5200], batch_size=64, epochs=5, 
                         validation_data=(images[5200:], one_hots[5200:]))
     
