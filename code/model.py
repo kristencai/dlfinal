@@ -72,7 +72,7 @@ def train_model(images, one_hots):
 
 
 if __name__ == "__main__":
-    preprocess_images()
+    # preprocess_images()
     get_labels()
     images, one_hots = unpickle()
     train_model(images, one_hots)

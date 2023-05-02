@@ -35,7 +35,7 @@ def get_labels():
     #   if id_to_label[key] != 'malignant' and id_to_label[key] != 'benign':
     #     print(f'this is the key {key} and value {id_to_label[key]}')
     ################################################################################
-    print(f'Labels: {labels}')
+    # print(f'Labels: {labels}')
     print(f'Total labels count: {len(labels)}')
     print(f'Benign: {labels.count(0)}')
     print(f'Malignant: {labels.count(1)}')
@@ -140,7 +140,7 @@ def unpickle():
         for i in data[key][0]:
             pictures.append(i)
 
-    images = np.array(images)
+    images = np.array(pictures)
     indices = [data[key][1] for key in data.keys()]
     one_hots = tf.one_hot(indices, 2)
 
