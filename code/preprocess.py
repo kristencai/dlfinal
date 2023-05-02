@@ -203,6 +203,8 @@ def preprocess_images():
         # count += 1
         # if count > 100:
         #   break
+        count += 1
+        print(f'on iteration: {count}')
         if filename.is_file():
             with Image.open(filename.path) as img:
             # print(filename.path.strip('images/').strip('.JPG'))
