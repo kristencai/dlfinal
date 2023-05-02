@@ -1,4 +1,10 @@
 How to run this model: 
+
+ssh first: 
+source /course/cs1470/cs1470_env/bin/activate
+cd /home/syu66/CS1470/dlfinal
+
+
 most gpus that we have access to won't be able to run this model with the given 
 preprocessed data. as such, we use the following commands to access Brown's 
 gpu stack: 

@@ -146,7 +146,8 @@ def preprocess_images():
 
     print(f' overall malignant: {malignant} v. benign: {benign}')
 
-    with open(f'data/data.npy', 'wb') as pickle_file:
+    # change the file path depending on which version of preprocessing
+    with open(f'data/invert.npy', 'wb') as pickle_file:
         np.save( pickle_file, data)
     print(f'Data has been dumped into data.npy!')
 
@@ -252,7 +253,8 @@ def preprocess_images():
 
 def unpickle():
     data = {}
-    with open('data/data.npy', 'rb') as file:
+    # change the file path dependingo n which version of preprocessing
+    with open('data/invert.npy', 'rb') as file:
         data = np.load(file, allow_pickle=True).item()
     print(f'data successfully unpickled')
 
