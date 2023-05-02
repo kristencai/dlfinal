@@ -44,7 +44,6 @@ def train_model(images, one_hots):
     # dropout2=Dropout(rate=0.3)(dense2)
     # predictions=Dense(2, activation='sigmoid')(dropout2)
 
-    model = Model(inputs=resnet50.input, outputs=predictions)
 
     flatten=Flatten()(resnet50.output)
     dense1=Dense(128, activation='relu')(flatten)
@@ -53,6 +52,7 @@ def train_model(images, one_hots):
     dropout2=Dropout(rate=0.3)(dense2)
     predictions=Dense(2, activation='sigmoid')(dropout2)
 
+    model = Model(inputs=resnet50.input, outputs=predictions)
 
 
 
