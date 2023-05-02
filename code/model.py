@@ -46,27 +46,28 @@ def train_model(images, one_hots):
 
 
     flatten=Flatten()(resnet50.output)
-    dense1=Dense(128, activation='leaky_relu')(flatten)
+    dense1=Dense(512, activation='leaky_relu')(flatten)
     dropout1=Dropout(rate=0.3)(dense1)
-    dense2=Dense(64, activation='leaky_relu')(dropout1)
+    dense2=Dense(256, activation='leaky_relu')(dropout1)
     dropout2=Dropout(rate=0.5)(dense2)
-    predictions=Dense(2, activation='softmax')(dropout2)
+    dense3 = Dense(64, activation = 'leaky_relu')(dropout2)
+    predictions=Dense(2, activation='softmax')(dense3)
 
     model = Model(inputs=resnet50.input, outputs=predictions)
 
 
 
     # compile the models
-    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer=tf.keras.optimizers.Adam(0.0004), loss='binary_crossentropy', metrics=['accuracy'])
 
     # model.fit(dataset, epochs = 5)
 
 
     # shuffle 
-    # indices = tf.range(start=0, limit=len(one_hots))
-    # idx = tf.random.shuffle(indices)
-    # images = tf.gather(images, idx)
-    # one_hots = tf.gather(one_hots, idx)
+    indices = tf.range(start=0, limit=len(one_hots))
+    idx = tf.random.shuffle(indices)
+    images = tf.gather(images, idx)
+    one_hots = tf.gather(one_hots, idx)
 
     # # train the models
     # history = model.fit(train_dataset, validation_data=val_dataset, epochs=10)
