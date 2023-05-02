@@ -22,7 +22,7 @@ def train_model(images, one_hots):
 
     batch_size = 64
     epochs = 5
-    train_dataset = dataset.take(7100).repeat().batch(batch_size)
+    train_dataset = dataset.take(7100).batch(batch_size)
     train_dataset = train_dataset.shuffle(buffer_size=7100)
     val_dataset = dataset.skip(7100).batch(batch_size)
 
