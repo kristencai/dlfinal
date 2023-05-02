@@ -78,6 +78,10 @@ def preprocess_images():
 
     directory = 'images'
 
+    # TODO: Try using a conv2d layer with multiple output channels to extract the 
+    # rough features of the image and use that as input as well
+    
+
     # picture_id -> (pixel values, label value)
     data = {}
     count = 0
