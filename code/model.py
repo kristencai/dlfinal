@@ -50,6 +50,8 @@ def train_model(images, one_hots):
 
     preprocessed = slice_model.predict(images)
 
+    print('preprocessed shape: {preprocessed.shape}')
+
     # ABSTRACTING WITH RESNET50
 
     resnet50 = tf.keras.applications.ResNet50(include_top=False, weights='imagenet', input_shape=(256,256,64))
