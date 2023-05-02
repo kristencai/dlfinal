@@ -46,11 +46,11 @@ def train_model(images, one_hots):
 
 
     flatten=Flatten()(resnet50.output)
-    dense1=Dense(128, activation='relu')(flatten)
+    dense1=Dense(128, activation='leaky_relu')(flatten)
     dropout1=Dropout(rate=0.3)(dense1)
-    dense2=Dense(64, activation='relu')(dropout1)
-    dropout2=Dropout(rate=0.3)(dense2)
-    predictions=Dense(2, activation='sigmoid')(dropout2)
+    dense2=Dense(64, activation='leaky_relu')(dropout1)
+    dropout2=Dropout(rate=0.5)(dense2)
+    predictions=Dense(2, activation='softmax')(dropout2)
 
     model = Model(inputs=resnet50.input, outputs=predictions)
 
@@ -59,7 +59,7 @@ def train_model(images, one_hots):
     # compile the models
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
-    model.fit(dataset, epochs = 5)
+    # model.fit(dataset, epochs = 5)
 
 
     # shuffle 
@@ -74,8 +74,8 @@ def train_model(images, one_hots):
     # print(one_hots)
     # print(images[:1904].shape)
     # print(one_hots[:1904].shape)
-    # history = model.fit(images[:1904], one_hots[:1904], batch_size=128, epochs=3, 
-    #                     validation_data=(images[1904:], one_hots[1904:]))
+    history = model.fit(images[:5200], one_hots[:5200], batch_size=64, epochs=3, 
+                        validation_data=(images[5200:], one_hots[5200:]))
     
 
 
