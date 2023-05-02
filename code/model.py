@@ -68,11 +68,12 @@ def train_model(images, one_hots):
     print(one_hots[:1904].shape)
     history = model.fit(images[:1904], one_hots[:1904], batch_size=128, epochs=3, 
                         validation_data=(images[1904:], one_hots[1904:]))
+    
 
 
 
 if __name__ == "__main__":
-    preprocess_images()
+    # preprocess_images()
     get_labels()
     images, one_hots = unpickle()
     train_model(images, one_hots)
