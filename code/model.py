@@ -78,10 +78,10 @@ def train_model(images, one_hots):
 
 
 
-    # indices = tf.range(start=0, limit=len(one_hots))
-    # idx = tf.random.shuffle(indices)
-    # images = tf.gather(images, idx)
-    # one_hots = tf.gather(one_hots, idx)
+    indices = tf.range(start=0, limit=len(one_hots))
+    idx = tf.random.shuffle(indices)
+    images = tf.gather(images, idx)
+    one_hots = tf.gather(one_hots, idx)
 
     # compile the models
     model.compile(optimizer=tf.keras.optimizers.Adam(0.0004), loss='binary_crossentropy', metrics=['accuracy'])
