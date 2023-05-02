@@ -15,10 +15,15 @@ from re import X
 def train_model(images, one_hots):
 
     # load in the pre-trained resnet
-    # resnet50 = ResNet50(include_top=False, weights='imagenet', input_shape=(256,256,3))
-    resnet50 = ResNet152(include_top=False, weights='imagenet', input_shape=(256,256,3))
+    resnet50 = tf.keras.applications.ResNet50(include_top=False, weights='imagenet', input_shape=(256,256,3))
+    # resnet50 = ResNet152(include_top=False, weights='imagenet', input_shape=(256,256,3))
     
+    dataset = tf.data.Dataset.from_tensor_slices((images, one_hots))
 
+    # Shuffle the dataset and split into batches of size 32
+    batch_size = 32
+    dataset = dataset.shuffle(buffer_size=len(images))
+    dataset = dataset.batch(batch_size)
     # freeze the pre-trained layers, and only train the newly added layers
     # for layer in resnet152.layers:
     #   layer.trainable = False
@@ -39,6 +44,8 @@ def train_model(images, one_hots):
     # dropout2=Dropout(rate=0.3)(dense2)
     # predictions=Dense(2, activation='sigmoid')(dropout2)
 
+    model = Model(inputs=resnet50.input, outputs=predictions)
+
     flatten=Flatten()(resnet50.output)
     dense1=Dense(128, activation='relu')(flatten)
     dropout1=Dropout(rate=0.3)(dense1)
@@ -47,11 +54,12 @@ def train_model(images, one_hots):
     predictions=Dense(2, activation='sigmoid')(dropout2)
 
 
-    model = Model(inputs=resnet50.input, outputs=predictions)
 
 
     # compile the models
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+
+    model.fit(dataset, epochs = 5)
 
 
     # shuffle 
@@ -64,10 +72,10 @@ def train_model(images, one_hots):
     # history = model.fit(train_dataset, validation_data=val_dataset, epochs=10)
     # print(images)
     # print(one_hots)
-    print(images[:1904].shape)
-    print(one_hots[:1904].shape)
-    history = model.fit(images[:1904], one_hots[:1904], batch_size=128, epochs=3, 
-                        validation_data=(images[1904:], one_hots[1904:]))
+    # print(images[:1904].shape)
+    # print(one_hots[:1904].shape)
+    # history = model.fit(images[:1904], one_hots[:1904], batch_size=128, epochs=3, 
+    #                     validation_data=(images[1904:], one_hots[1904:]))
     
 
 
