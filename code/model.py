@@ -68,11 +68,15 @@ def train_model(images, one_hots):
 
     flatten=Flatten()(resnet50.output)
     dense1=Dense(512, activation='relu')(flatten)
+    print(f'dense 1: {dense1.shape}')
     dropout1=Dropout(rate=0.3)(dense1)
     dense2=Dense(256, activation='relu')(dropout1)
+    print(f'dense 2: {dense2.shape}')
     dropout2=Dropout(rate=0.5)(dense2)
     dense3 = Dense(64, activation = 'relu')(dropout2)
+    print(f'dense 3: {dense3.shape}')
     predictions=Dense(2, activation='softmax')(dense3)
+    print(f'dense 4: {predictions.shape}')
 
     model = Model(inputs=resnet50.input, outputs=predictions)
 
@@ -96,7 +100,9 @@ def train_model(images, one_hots):
     for epoch in range(num_epochs):
         for x_batch, y_batch in train_dataset:
             with tf.GradientTape() as tape:
+                print(f'shape of x_batch {x_batch.shape}')
                 predictions = model(x_batch)
+                print(f'shape of x_batch {x_batch.shape}')
                 loss = tf.keras.losses.sparse_categorical_crossentropy(y_batch, predictions)
 
 
