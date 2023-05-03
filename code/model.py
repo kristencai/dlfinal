@@ -102,7 +102,7 @@ def train_model(images, one_hots):
             with tf.GradientTape() as tape:
                 print(f'shape of x_batch {x_batch.shape}')
                 y_pred = model(x_batch)
-                # print(f'shape of x_batch {predictions.shape}')
+                print(f'shape of predictions {y_pred.shape}')
                 loss = tf.keras.losses.sparse_categorical_crossentropy(y_batch, y_pred)
 
 
