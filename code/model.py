@@ -22,7 +22,7 @@ def train_model(images, one_hots):
     batch_size = 32
     # epochs = 5
     train_dataset = dataset.take(7100).shuffle(buffer_size=7100)
-    print(f'dataset shape: {train_dataset.shape}')
+    # print(f'dataset shape: {train_dataset.shape}')
     train_dataset = train_dataset.batch(batch_size)
     val_dataset = dataset.skip(7100).batch(batch_size)
 
@@ -100,9 +100,9 @@ def train_model(images, one_hots):
     for epoch in range(num_epochs):
         for x_batch, y_batch in train_dataset:
             with tf.GradientTape() as tape:
-                print(f'shape of x_batch {x_batch.shape}')
                 y_pred = model(x_batch)
-                print(f'shape of predictions {y_pred.shape}')
+                print(f'shape of x_batch {x_batch.shape}')
+                print(f'shape of y_batch {y_batch.shape}')
                 loss = tf.keras.losses.sparse_categorical_crossentropy(y_batch, y_pred)
 
 
