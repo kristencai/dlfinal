@@ -98,12 +98,15 @@ def train_model(images, one_hots):
 
     num_epochs = 5
     for epoch in range(num_epochs):
+        batch_num = 0
+        print(f'Epoch {epoch}: ------')
         for x_batch, y_batch in train_dataset:
+            print(f'Batch{batch_num} ------')
             with tf.GradientTape() as tape:
                 y_pred = model(x_batch)
-                print(f'shape of x_batch {x_batch.shape}')
-                print(f'shape of y_batch {y_batch.shape}')
-                loss = tf.keras.losses.sparse_categorical_crossentropy(y_batch, y_pred)
+                # print(f'shape of x_batch {x_batch.shape}')
+                # print(f'shape of y_batch {y_batch.shape}')
+                loss = tf.keras.losses.categorical_crossentropy(y_batch, y_pred)
 
 
 
@@ -116,8 +119,8 @@ def train_model(images, one_hots):
         num_batches = 0
         for x_val_batch, y_val_batch in val_dataset:
             predictions = model(x_val_batch)
-            loss = tf.keras.losses.sparse_categorical_crossentropy(y_val_batch, predictions)
-            accuracy = tf.keras.metrics.sparse_categorical_accuracy(y_val_batch, predictions)
+            loss = tf.keras.losses.categorical_crossentropy(y_val_batch, predictions)
+            accuracy = tf.keras.metrics.categorical_accuracy(y_val_batch, predictions)
             total_loss += tf.reduce_mean(loss)
             total_accuracy += tf.reduce_mean(accuracy)
             num_batches += 1
