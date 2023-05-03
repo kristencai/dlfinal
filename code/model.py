@@ -19,10 +19,10 @@ def train_model(images, one_hots):
     # resnet50 = tf.keras.applications.ResNet152(include_top=False, weights='imagenet', input_shape=(256,256,3))
     
     dataset = tf.data.Dataset.from_tensor_slices((images, one_hots))
-
     batch_size = 32
     # epochs = 5
     train_dataset = dataset.take(7100).shuffle(buffer_size=7100)
+    print(f'dataset shape: {train_dataset.shape}')
     train_dataset = train_dataset.batch(batch_size)
     val_dataset = dataset.skip(7100).batch(batch_size)
 
