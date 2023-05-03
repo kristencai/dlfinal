@@ -85,12 +85,12 @@ def train_model(images, one_hots):
 
     # compile the models
     model.compile(optimizer=tf.keras.optimizers.Adam(0.0004), loss='binary_crossentropy', metrics=['accuracy'])
-    # history = model.fit(images[:1500], one_hots[:1500], batch_size=64, epochs=5, 
-    #                     validation_data=(images[1500:], one_hots[1500:]))
+    history = model.fit(images[:1500], one_hots[:1500], batch_size=64, epochs=5, 
+                        validation_data=(images[1500:], one_hots[1500:]))
     
 
-    history = model.fit(images[:7100], one_hots[:7100], batch_size=64, epochs=5, 
-                        validation_data=(images[7100:], one_hots[7100:]))
+    # history = model.fit(images[:7100], one_hots[:7100], batch_size=64, epochs=5, 
+    #                     validation_data=(images[7100:], one_hots[7100:]))
     # history = model.fit(train_dataset, epochs=5, validation_data=val_dataset)
     
 
