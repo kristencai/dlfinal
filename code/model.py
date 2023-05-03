@@ -91,7 +91,37 @@ def train_model(images, one_hots):
 
     # history = model.fit(images[:7100], one_hots[:7100], batch_size=64, epochs=5, 
     #                     validation_data=(images[7100:], one_hots[7100:]))
-    history = model.fit(train_dataset, epochs=5, validation_data=val_dataset)
+
+    num_epochs = 5
+    for epoch in range(num_epochs):
+        for x_batch, y_batch in train_dataset:
+            with tf.GradientTape() as tape:
+                predictions = model(x_batch)
+                loss = tf.keras.losses.sparse_categorical_crossentropy(y_batch, predictions)
+
+
+
+            gradients = tape.gradient(loss, model.trainable_variables)
+            model.optimizer.apply_gradients(zip(gradients, model.trainable_variables))
+
+            # Evaluate on validation data
+        total_loss = 0
+        total_accuracy = 0
+        num_batches = 0
+        for x_val_batch, y_val_batch in val_dataset:
+            predictions = model(x_val_batch)
+            loss = tf.keras.losses.sparse_categorical_crossentropy(y_val_batch, predictions)
+            accuracy = tf.keras.metrics.sparse_categorical_accuracy(y_val_batch, predictions)
+            total_loss += tf.reduce_mean(loss)
+            total_accuracy += tf.reduce_mean(accuracy)
+            num_batches += 1
+        val_loss = total_loss / num_batches
+        val_accuracy = total_accuracy / num_batches
+        
+        # Print results
+        print(f'Epoch {epoch + 1}/{num_epochs}, loss: {val_loss:.3f}, accuracy: {val_accuracy:.3f}')
+
+    # history = model.fit(train_dataset, epochs=5, validation_data=val_dataset)
     
 
 
