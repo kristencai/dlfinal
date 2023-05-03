@@ -96,41 +96,41 @@ def train_model(images, one_hots):
     # history = model.fit(images[:7100], one_hots[:7100], batch_size=64, epochs=5, 
     #                     validation_data=(images[7100:], one_hots[7100:]))
 
-    num_epochs = 5
-    for epoch in range(num_epochs):
-        batch_num = 0
-        print(f'Epoch {epoch}: ------')
-        for x_batch, y_batch in train_dataset:
-            print(f'Batch{batch_num} ------')
-            with tf.GradientTape() as tape:
-                y_pred = model(x_batch)
-                # print(f'shape of x_batch {x_batch.shape}')
-                # print(f'shape of y_batch {y_batch.shape}')
-                loss = tf.keras.losses.categorical_crossentropy(y_batch, y_pred)
+    # num_epochs = 5
+    # for epoch in range(num_epochs):
+    #     batch_num = 0
+    #     print(f'Epoch {epoch}: ------')
+    #     for x_batch, y_batch in train_dataset:
+    #         print(f'Batch{batch_num} ------')
+    #         with tf.GradientTape() as tape:
+    #             y_pred = model(x_batch)
+    #             # print(f'shape of x_batch {x_batch.shape}')
+    #             # print(f'shape of y_batch {y_batch.shape}')
+    #             loss = tf.keras.losses.categorical_crossentropy(y_batch, y_pred)
 
 
 
-            gradients = tape.gradient(loss, model.trainable_variables)
-            model.optimizer.apply_gradients(zip(gradients, model.trainable_variables))
+    #         gradients = tape.gradient(loss, model.trainable_variables)
+    #         model.optimizer.apply_gradients(zip(gradients, model.trainable_variables))
 
-            # Evaluate on validation data
-        total_loss = 0
-        total_accuracy = 0
-        num_batches = 0
-        for x_val_batch, y_val_batch in val_dataset:
-            predictions = model(x_val_batch)
-            loss = tf.keras.losses.categorical_crossentropy(y_val_batch, predictions)
-            accuracy = tf.keras.metrics.categorical_accuracy(y_val_batch, predictions)
-            total_loss += tf.reduce_mean(loss)
-            total_accuracy += tf.reduce_mean(accuracy)
-            num_batches += 1
-        val_loss = total_loss / num_batches
-        val_accuracy = total_accuracy / num_batches
+    #         # Evaluate on validation data
+    #     total_loss = 0
+    #     total_accuracy = 0
+    #     num_batches = 0
+    #     for x_val_batch, y_val_batch in val_dataset:
+    #         predictions = model(x_val_batch)
+    #         loss = tf.keras.losses.categorical_crossentropy(y_val_batch, predictions)
+    #         accuracy = tf.keras.metrics.categorical_accuracy(y_val_batch, predictions)
+    #         total_loss += tf.reduce_mean(loss)
+    #         total_accuracy += tf.reduce_mean(accuracy)
+    #         num_batches += 1
+    #     val_loss = total_loss / num_batches
+    #     val_accuracy = total_accuracy / num_batches
         
-        # Print results
-        print(f'Epoch {epoch + 1}/{num_epochs}, loss: {val_loss:.3f}, accuracy: {val_accuracy:.3f}')
+    #     # Print results
+    #     print(f'Epoch {epoch + 1}/{num_epochs}, loss: {val_loss:.3f}, accuracy: {val_accuracy:.3f}')
 
-    # history = model.fit(train_dataset, epochs=5, validation_data=val_dataset)
+    history = model.fit(train_dataset, epochs=5, validation_data=val_dataset)
     
 
 
