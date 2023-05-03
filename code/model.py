@@ -20,7 +20,7 @@ def train_model(images, one_hots):
     
     dataset = tf.data.Dataset.from_tensor_slices((images, one_hots))
 
-    batch_size = 64
+    batch_size = 32
     # epochs = 5
     train_dataset = dataset.take(7100).shuffle(buffer_size=7100)
     train_dataset = train_dataset.batch(batch_size)
