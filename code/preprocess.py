@@ -254,7 +254,7 @@ def preprocess_images():
 def unpickle():
     data = {}
     # change the file path dependingo n which version of preprocessing
-    with open('data/invert.npy', 'rb') as file:
+    with open('data/data.npy', 'rb') as file:
         data = np.load(file, allow_pickle=True).item()
     print(f'data successfully unpickled')
 
