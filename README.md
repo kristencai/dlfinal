@@ -28,7 +28,9 @@ Most GPU's we have access to won't be able to run this model with the given prep
 * Preprocessing was done using PIL to resize all images to 256x256.
 * Images were rotated and color inverted to augment the data.
 * These were fed into a ResNet50 block, with which we used transfer learning (setting ```layer.trainable = False```).
-* The result of the convolutions was sent into 4 trainable dense layers with some dropout layers imbetween. 
+* The output of the convolutions went into the next block of our model, consisting of 4 trainable dense layers with some dropout layers imbetween. 
+* Our model used binary cross entropy loss and an Adam optimizer with a learning rate of 0.0004. It was trained on 5 epochs, with an 80:20 training/testing split.
+* Our model reached a peak accuracy of about 85%.
 
 ### Contributions:
 * All code was written on two computers using group/pair programming techniques. 
