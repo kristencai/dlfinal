@@ -25,7 +25,7 @@ def get_labels():
             elif 'malignant' in line_array:
                 id_to_label[line_array[0]] = 1
 
-            
+
     print(line_count)
     labels = list(id_to_label.values())
 
@@ -41,6 +41,12 @@ def get_labels():
     print(f'Malignant: {labels.count(1)}')
 
 def preprocess_images():
+    #trying more preprocessing stuff:
+    directory = 'images'
+
+    # picture_id -> (pixel values, label value)
+    data = {}
+    count = 0
     labels = []
     id_to_label = {}
     line_count = 0
@@ -60,33 +66,9 @@ def preprocess_images():
             elif 'malignant' in line_array:
                 id_to_label[line_array[0]] = 1
 
-            
+
     print(line_count)
     labels = list(id_to_label.values())
-
-
-    ############################## PRINTING AID! ###################################
-    # for key in id_to_label.keys():
-    #   if id_to_label[key] != 'malignant' and id_to_label[key] != 'benign':
-    #     print(f'this is the key {key} and value {id_to_label[key]}')
-    ################################################################################
-    # print(f'Labels: {labels}')
-    print(f'Total labels count: {len(labels)}')
-    print(f'Benign: {labels.count(0)}')
-    print(f'Malignant: {labels.count(1)}')
-
-
-    directory = 'images'
-
-    # TODO: Try using a conv2d layer with multiple output channels to extract the 
-    # rough features of the image and use that as input as well
-
-
-    # picture_id -> (pixel values, label value)
-    data = {}
-    count = 0
-    malignant = 0
-    benign = 0
     # this is the final code bc it resizes all of them
     # for each photo, we resize, get the pixel values, and reshape to (256, 256, 3)
     for filename in tqdm(os.scandir(directory)):
@@ -274,7 +256,3 @@ def unpickle():
     print(one_hots.shape)
 
     return images, one_hots
-
-
-
-
