@@ -14,43 +14,25 @@ from re import X
 
 def train_model(images, one_hots):
 
-    # load in the pre-trained resnet
+    # NOTE: loading in VGG when testing its performance 
     # vgg16 = tf.keras.applications.VGG16(include_top=False, weights = 'imagenet', input_shape = (256,256,3))
-    # resnet50 = tf.keras.applications.ResNet152(include_top=False, weights='imagenet', input_shape=(256,256,3))
-    
+
+    # ======================================================================
+    # ======================================================================
+
+    # This section loads all of the data into a datset to ensure that the gpu doesn't 
+    # overload 
     dataset = tf.data.Dataset.from_tensor_slices((images, one_hots))
     batch_size = 32
-    # epochs = 5
     # for invert, use 7100
     train_dataset = dataset.take(6000).shuffle(buffer_size=6000)
-    # print(f'dataset shape: {train_dataset.shape}')
     train_dataset = train_dataset.batch(batch_size)
     val_dataset = dataset.skip(6000).batch(batch_size)
 
+    # ======================================================================
+    # ======================================================================
 
-    # # Shuffle the dataset and split into batches of size 32
-    # batch_size = 64
-    # dataset = dataset.shuffle(buffer_size=len(images))
-    # dataset = dataset.batch(batch_size)
-    # # freeze the pre-trained layers, and only train the newly added layers
-    # for layer in resnet152.layers:
-    #   layer.trainable = False
-
-
-
-    # add new layers
-    # x = Flatten()(resnet152.output)
-    # x = Dense(128, activation='relu')(x)
-    # predictions = Dense(2, activation='sigmoid')(x)
-
-    # train_model = Sequential([
-    # flatten=Flatten()(resnet50.output)
-    # dense1=Dense(128, activation='relu')(flatten)
-    # dropout1=Dropout(rate=0.3)(dense1)
-    # dense2=Dense(64, activation='relu')(dropout1)
-    # dropout2=Dropout(rate=0.3)(dense2)
-    # predictions=Dense(2, activation='sigmoid')(dropout2)
-
+    # NOTE: This is a failed preprocessing technique: 
     # # PREPROCESSING WITH VGG 
     # vgg_model = tf.keras.applications.VGG16(include_top = False, weights = 'imagenet', input_shape=(256,256,3))
 
@@ -61,6 +43,9 @@ def train_model(images, one_hots):
     # print('preprocessed shape: {preprocessed.shape}')
 
     # ABSTRACTING WITH RESNET50
+
+    # ======================================================================
+    # ======================================================================
 
     resnet50 = tf.keras.applications.ResNet50(include_top=False, weights='imagenet', input_shape=(256,256,3))
 
@@ -81,22 +66,31 @@ def train_model(images, one_hots):
 
     model = Model(inputs=resnet50.input, outputs=predictions)
 
+    model.compile(optimizer=tf.keras.optimizers.Adam(0.0004), loss='binary_crossentropy', metrics=['accuracy'])
 
+    history = model.fit(train_dataset, epochs=5, validation_data=val_dataset)
+
+    # ======================================================================
+    # ======================================================================
+
+    # NOTE: The below is manual shuffling without using datasets. 
 
     # indices = tf.range(start=0, limit=len(one_hots))
     # idx = tf.random.shuffle(indices)
     # images = tf.gather(images, idx)
     # one_hots = tf.gather(one_hots, idx)
-
-    # compile the models
-    model.compile(optimizer=tf.keras.optimizers.Adam(0.0004), loss='binary_crossentropy', metrics=['accuracy'])
-    # history = model.fit(images[:1500], one_hots[:1500], batch_size=64, epochs=5, 
-    #                     validation_data=(images[1500:], one_hots[1500:]))
-    
-
     # history = model.fit(images[:7100], one_hots[:7100], batch_size=64, epochs=5, 
     #                     validation_data=(images[7100:], one_hots[7100:]))
 
+    # compile the models
+    # history = model.fit(images[:1500], one_hots[:1500], batch_size=64, epochs=5, 
+    #                     validation_data=(images[1500:], one_hots[1500:]))
+    
+    # ======================================================================
+    # ======================================================================
+
+    # NOTE: This was a manual implementaion of fit, because I thought there was an issue
+    #  with the fit function, but it was really a cuda issue that i could not fix.
     # num_epochs = 5
     # for epoch in range(num_epochs):
     #     batch_num = 0
@@ -108,12 +102,8 @@ def train_model(images, one_hots):
     #             # print(f'shape of x_batch {x_batch.shape}')
     #             # print(f'shape of y_batch {y_batch.shape}')
     #             loss = tf.keras.losses.categorical_crossentropy(y_batch, y_pred)
-
-
-
     #         gradients = tape.gradient(loss, model.trainable_variables)
     #         model.optimizer.apply_gradients(zip(gradients, model.trainable_variables))
-
     #         # Evaluate on validation data
     #     total_loss = 0
     #     total_accuracy = 0
@@ -127,11 +117,12 @@ def train_model(images, one_hots):
     #         num_batches += 1
     #     val_loss = total_loss / num_batches
     #     val_accuracy = total_accuracy / num_batches
-        
     #     # Print results
     #     print(f'Epoch {epoch + 1}/{num_epochs}, loss: {val_loss:.3f}, accuracy: {val_accuracy:.3f}')
 
-    history = model.fit(train_dataset, epochs=5, validation_data=val_dataset)
+    # ======================================================================
+    # ======================================================================
+
     
 
 
