@@ -1,6 +1,13 @@
 # Malignant Skin Lesion Diagnosis Using Convolutional Neural Networks
 
-How to run this model: 
+Sean Yu, syu66; Kristen Cai, kcai6; Jeremy Lum, jlum3; Thomas Bui, tbui12
+
+## Introduction
+
+Melanoma is a form of malignant skin cancer with a high 5-year relative survival rate. Most cases of 5-year survival stem from diagnoses confined to the primary site, indicating the importance of primary detection. While dermatologists traditionally use physical examinations to determine skin growth malignancy, studies have shown that deep learning models are more effective at melanoma detection. 
+
+The objective of our project is to create a clinical decision-support tool that can reliably differentiate benign and malignant growths, thus enabling clinicians to accurately classify skin lesions and prevent progression.
+
 
 ## Running the model: 
 * ssh first
