@@ -151,7 +151,7 @@ def preprocess_images():
         np.save( pickle_file, data)
     print(f'Data has been dumped into data.npy!')
 
-# def preprocess_images():
+def preprocess_images():
     labels = []
     id_to_label = {}
     line_count = 0
