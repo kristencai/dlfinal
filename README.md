@@ -7,7 +7,7 @@ How to run this model:
 * run: ``` cd /home/<cs login>/~/dlfinal```
 
 ## Rationale: 
-most gpus that we have access to won't be able to run this model with the given preprocessed data. as such, we use the following commands to access Brown's gpu stack: 
+most gpus that we have access to won't be able to run this model with the given preprocessed data. as such, we use the following commands to access Brown CS's gpu stack: 
 ### Running on the stack: 
 * ```qsub -l gpus=1 -l gmem=24 -o /home/<cs login>/~/dlfinal/out.txt -e  /home/<cs login>/~/dlfinal/error.txt run.sh ```
 * make sure that each task you feed to the stack has a different output file
@@ -21,4 +21,8 @@ most gpus that we have access to won't be able to run this model with the given 
 * Images were rotated and color inverted
 * these were fed into a resnet50 block, with which we used transfer learning
 * the result of the convolutions was sent into 4 dense layers to apply transfer learning
+
+## Contributions: 
+* All code was written on two computers with group/pair programming techniques. 
+* Data, specifically the images and pickled files, were stored on the CS department's machines to offload the burden on personal devices
 
