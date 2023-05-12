@@ -25,9 +25,9 @@ def train_model(images, one_hots):
     dataset = tf.data.Dataset.from_tensor_slices((images, one_hots))
     batch_size = 32
     # for invert, use 7100
-    train_dataset = dataset.take(6000).shuffle(buffer_size=6000)
+    train_dataset = dataset.take(7100).shuffle(buffer_size=7100)
     train_dataset = train_dataset.batch(batch_size)
-    val_dataset = dataset.skip(6000).batch(batch_size)
+    val_dataset = dataset.skip(7100).batch(batch_size)
 
     # ======================================================================
     # ======================================================================
@@ -68,7 +68,7 @@ def train_model(images, one_hots):
 
     model.compile(optimizer=tf.keras.optimizers.Adam(0.0004), loss='binary_crossentropy', metrics=['accuracy'])
 
-    history = model.fit(train_dataset, epochs=5, validation_data=val_dataset)
+    history = model.fit(train_dataset, epochs=10, validation_data=val_dataset)
 
     # ======================================================================
     # ======================================================================
