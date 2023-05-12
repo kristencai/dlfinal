@@ -68,7 +68,7 @@ def train_model(images, one_hots):
 
     model.compile(optimizer=tf.keras.optimizers.Adam(0.0004), loss='binary_crossentropy', metrics=['accuracy'])
 
-    history = model.fit(train_dataset, epochs=10, validation_data=val_dataset)
+    history = model.fit(train_dataset, epochs=5, validation_data=val_dataset)
 
     # ======================================================================
     # ======================================================================
